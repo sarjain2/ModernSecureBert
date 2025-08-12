@@ -91,6 +91,3 @@ Before you begin, ensure you have the following installed:
     *Note: The original code mentions `https://github.com/CVEProject/cvelistV5 (Title, description)`. If your `ModernBertDataset` is designed to process CVE data, ensure its implementation correctly handles the structure of that data.*
 
 ## Run Evaluation on provided weights
-
-
-    --log_interval 100
