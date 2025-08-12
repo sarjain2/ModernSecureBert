@@ -90,19 +90,7 @@ Before you begin, ensure you have the following installed:
     ```
     *Note: The original code mentions `https://github.com/CVEProject/cvelistV5 (Title, description)`. If your `ModernBertDataset` is designed to process CVE data, ensure its implementation correctly handles the structure of that data.*
 
-## Usage
+## Run Evaluation on provided weights
 
-The training script is designed to be launched using `torchrun` (formerly `torch.distributed.launch`) for distributed training.
 
-**To run the training on 8 GPUs (or any specified number):**
-
-```bash
-torchrun --nproc_per_node=8 train.py \
-    --primus_seed_path "Primus-Seed_dataset/train/data-00000-of-00001.arrow" \
-    --primus_fineweb_dir "Primus-FineWeb_dataset/train" \
-    --primus_instruct_path "Primus-Instruct_dataset/train/data-00000-of-00001.arrow" \
-    --batch_size_per_gpu 16 \
-    --num_epochs 20 \
-    --learning_rate 1e-5 \
-    --output_dir "my_modernbert_training_run" \
     --log_interval 100
