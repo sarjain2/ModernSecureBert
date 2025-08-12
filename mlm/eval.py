@@ -4,6 +4,7 @@ from transformers import AutoModelForMaskedLM, AutoTokenizer
 from tqdm import tqdm
 import time
 from torch.quantization import quantize_dynamic
+import argparse
 
 
 # https://huggingface.co/ehsanaghaei/SecureBERT?library=transformers
@@ -120,18 +121,54 @@ def evaluate_model_on_dataset(
 
 if __name__ == "__main__":
     # Path to the model checkpoint
-    model_checkpoint_path = "final_base_modernsecurebert_pths/checkpoint_epoch_20.pth"
+    parser = argparse.ArgumentParser(description="Evaluate a model on a given dataset.")
+
+    # Add arguments
+    parser.add_argument(
+        "--model_path",
+        type=str,
+        help="Path to the model checkpoint file (e.g., checkpoint_epoch_10.pth)",
+    )
+    parser.add_argument(
+        "--dataset_path",
+        type=str,
+        default="Object_prediction.csv", # Default value
+        help="Path to the dataset CSV file (e.g., Object_prediction.csv)",
+    )
+    parser.add_argument(
+        "--top_n",
+        type=int,
+        default=2, # Default value
+        help="Number of top predictions to evaluate (e.g., 2)",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default="cuda" if torch.cuda.is_available() else "cpu", # Default value based on availability
+        help="Device to use for evaluation (e.g., 'cuda' or 'cpu')",
+    )
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Use the parsed arguments
+    model_checkpoint_path = args.model_path
+    dataset_path = args.dataset_path
+    top_n = args.top_n
+    device = args.device
+
+    # model_checkpoint_path = "final_base_modernsecurebert_pths/checkpoint_epoch_20.pth"
 
     # Path to the dataset CSV file
     #dataset_path = "Verb_prediction.csv"
-    dataset_path = "Object_prediction.csv"
+    # dataset_path = "Object_prediction.csv"
     # dataset_path = "SecureBERT-eval-verbs.csv"
 
     # Number of top predictions to evaluate
-    top_n = 4
+    # top_n = 4
 
     # Device to use for evaluation (e.g., "cuda" or "cpu")
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Evaluate the model
     accuracy, results = evaluate_model_on_dataset(
